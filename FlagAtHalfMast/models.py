@@ -6,5 +6,5 @@ from django.db import models
 class FlagHalfMastInfo(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
-    reason = models.CharField(255)
+    reason = models.CharField(max_length=255)
 
