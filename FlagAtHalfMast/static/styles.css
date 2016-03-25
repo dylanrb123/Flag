@@ -1,0 +1,24 @@
+body {
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+}
+
+.container {
+    margin-top: 200px;
+}
+
+.text {
+    width: 50%;
+    vertical-align: middle;
+    text-align: center;
+    margin:auto
+}
+
+.answer {
+    font-weight: bold;
+    font-size: 120px;
+}
+
+.reason {
+    font-weight: normal;
+    font-size: 80px;
+}

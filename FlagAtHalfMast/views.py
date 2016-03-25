@@ -18,5 +18,6 @@ def main(request):
         ans = 'No'
         reas = ""
     return render(request, 'index.html', {'answer': ans, 'reason': reas})
+    return render(request, 'index.html', {'answer': 'YES', 'reason': 'TESTING'})
 
 
