@@ -28,7 +28,7 @@ def main(request):
 
 def update_db():
     r = requests.get("http://us.halfstaff.org")
-    soup = BeautifulSoup(r.text, "lxml")
+    soup = BeautifulSoup(r.text)#, "lxml")
 
     entry = soup.find("div", {"class":"entry"})
 
@@ -38,7 +38,7 @@ def update_db():
         start_str = str(dates[0].strong.string)
         end_str = str(dates[1].strong.string)
     else:
-        print "ERROR FUCK"
+        print("ERROR FUCK")
         start_str = "1/1/2016"
         end_str = "1/1/2016"
 
