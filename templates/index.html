@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
+{% block title %}Half mast?{% endblock %}
 {% block content %}
     <div class="container">
-        <div class="answer text">{{ answer }}</div>
+        <div class="answer text {% if answer == "YES" %} is-half-mast {% endif %}">{{ answer }}</div>
         <div class="reason text">{{ reason }}</div>
     </div>
 {% endblock %}
