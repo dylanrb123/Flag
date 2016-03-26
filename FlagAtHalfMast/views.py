@@ -6,25 +6,10 @@ from bs4 import BeautifulSoup
 import requests
 import datetime
 import threading
+import os
 
 
 # Create your views here.
-
-
-def main(request):
-    latest_info = FlagHalfMastInfo.objects.last()
-    half_mast = latest_info.end_date >= datetime.datetime.now().date() >= latest_info.start_date
-    if half_mast:
-        ans = 'Yes'
-        reas = latest_info.reason
-    else:
-        ans = 'No'
-        reas = ""
-
-    thr = threading.Thread(target=update_db)
-    thr.start() # will run "foo"
-
-    return render(request, 'index.html', {'answer': ans, 'reason': reas})
 
 def update_db():
     r = requests.get("http://us.halfstaff.org")
@@ -43,19 +28,25 @@ def update_db():
         end_str = "1/1/2016"
 
     reason = str(entry.find("div", {"class":"short"}).string)
-
+    
     start_date = datetime.datetime.strptime(start_str, "%m/%d/%Y").date()
     end_date = datetime.datetime.strptime(end_str, "%m/%d/%Y").date()
+    
+    new_flag = FlagHalfMastInfo(start_date=start_date, end_date=end_date, reason=reason)
+    new_flag.save()
 
     # print "Start: " + str(start_date)
     # print "End: " + str(end_date)
     # print reason
+#    start_date = datetime.date.today()
+#    end_date = datetime.date.today()
+#    reason = "Testing 123"
 
     import sqlite3
 
     # table name FlagAtHalfMast_flaghalfmastinfo
-
-    conn = sqlite3.connect('db.sqlite3')
+    """
+    conn = sqlite3.connect(os.path.expanduser('~/Flag/db.sqlite3'))
     c = conn.cursor()
 
     c.execute("INSERT INTO FlagAtHalfMast_flaghalfmastinfo"\
@@ -65,3 +56,20 @@ def update_db():
 
     conn.commit()
     conn.close()
+    """
+
+def main(request):
+    latest_info = FlagHalfMastInfo.objects.last()
+    half_mast = latest_info.end_date >= datetime.datetime.now().date() >= latest_info.start_date
+    if half_mast:
+        ans = 'Yes'
+        reas = latest_info.reason
+    else:
+        ans = 'No'
+        reas = ""
+
+    thr = threading.Thread(target=update_db)
+    thr.start() # will run "foo"
+
+    return render(request, 'index.html', {'answer': ans, 'reason': reas})
+
